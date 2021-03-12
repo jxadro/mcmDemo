@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: reviews
+  namespace: bookstore-kustomize
+  labels:
+    app: reviews
+spec:
+  ports:
+  - protocol: TCP
+    name: http
+    port: 9080
+    targetPort: 9080
+  selector:
+    app: reviews
+  sessionAffinity: None
+  type: ClusterIP

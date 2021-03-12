@@ -1,0 +1,29 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: productpage
+  namespace: bookstore-kustomize
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: productpage
+  template:
+    metadata:
+      labels:
+        app: productpage
+    spec:
+      hostNetwork: false
+      containers:
+      - name: productpage
+        env:
+          - name: DETAILS_HOSTNAME
+            value: details
+          - name: REVIEWS_HOSTNAME
+            value: reviews
+        image: docker.io/jxadro/aiops_liberty_app:1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - protocol: TCP
+          containerPort: 9080
+          name: http

@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: details
+  namespace: bookstore-kustomize
+  labels:
+    app: details
+spec:
+  ports:
+  - protocol: TCP
+    name: http
+    port: 9080
+    targetPort: 9080
+  selector:
+    app: details
+  sessionAffinity: None
+  type: ClusterIP

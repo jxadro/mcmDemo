@@ -1,0 +1,4 @@
+resources:
+- productpage-dep.yaml
+- productpage-srv.yaml
+- productpage-route.yaml

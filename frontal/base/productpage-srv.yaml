@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: productpage
+  namespace: bookstore-kustomize
+  labels:
+    app: productpage
+spec:
+  ports:
+  - protocol: TCP
+    name: http
+    port: 9080
+    targetPort: 9080
+  selector:
+    app: productpage
+  sessionAffinity: None
+  type: NodePort
