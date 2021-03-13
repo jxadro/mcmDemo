@@ -31,14 +31,14 @@ apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: bookstore-kustomize-frontal-cluster1
-  namespace: mcm-apps
+  namespace: bookstore-kustomize
   labels:
     deployment: bookstore-kustomize
   annotations:
     apps.open-cluster-management.io/github-branch: master
     apps.open-cluster-management.io/github-path: frontal/overlays/cluster1
 spec:
-  channel:  bookstore-kustomize-channel
+  channel:  mcm-apps/bookstore-kustomize-channel            
   placement: 
     placementRef: 
       kind: PlacementRule
@@ -50,9 +50,40 @@ apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
   name: bookstore-kustomize-cluster1
-  namespace: mcm-apps
+  namespace: bookstore-kustomize
 spec:
   clusterSelector:
     matchLabels:
-      name: cluster1      
+      name: cluster1   
+      
+---
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: bookstore-kustomize-frontal-clusterhub
+  namespace: bookstore-kustomize
+  labels:
+    deployment: bookstore-kustomize
+  annotations:
+    apps.open-cluster-management.io/github-branch: master
+    apps.open-cluster-management.io/github-path: frontal/overlays/clusterhub
+spec:
+  channel:  mcm-apps/bookstore-kustomize-channel            
+  placement: 
+    placementRef: 
+      kind: PlacementRule
+      name: bookstore-kustomize-clusterhub
+      
+---
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: bookstore-kustomize-clusterhub
+  namespace: bookstore-kustomize
+spec:
+  clusterSelector:
+    matchLabels:
+      name: local-cluster       
     
