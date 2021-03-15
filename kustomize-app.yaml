@@ -6,114 +6,117 @@ metadata:
 spec:
   pathname: 'https://github.com/jxadro/mcmDemo.git'
   type: GitHub
-  
+
 ---
-  
+
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
-  name: bookstore-kustomize-app     
-  namespace: bookstore-kustomize
+  name: bookstore-kustomize-app
+  namespace: mcm-apps
 spec:
   selector:
     matchExpressions:
-      - key: deployment  
+      - key: deployment
         operator: In
         values:
-        - bookstore-kustomize 
+        - bookstore-kustomize
   componentKinds:
   - group: app.ibm.com/v1alpha1
     kind: Subscription
-    
+
 ---
 
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: bookstore-kustomize-frontal-cluster1
-  namespace: bookstore-kustomize
+  namespace: mcm-apps
   labels:
     deployment: bookstore-kustomize
   annotations:
     apps.open-cluster-management.io/github-branch: master
     apps.open-cluster-management.io/github-path: frontal/overlays/cluster1
+    apps.open-cluster-management.io/reconcile-option: merge
 spec:
-  channel:  mcm-apps/bookstore-kustomize-channel            
-  placement: 
-    placementRef: 
+  channel:  mcm-apps/bookstore-kustomize-channel
+  placement:
+    placementRef:
       kind: PlacementRule
       name: bookstore-kustomize-cluster1
-      
+
 ---
 
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
   name: bookstore-kustomize-cluster1
-  namespace: bookstore-kustomize
+  namespace: mcm-apps
 spec:
   clusterSelector:
     matchLabels:
-      name: cluster1   
-      
+      name: cluster1
+
 ---
 
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: bookstore-kustomize-frontal-clusterhub
-  namespace: bookstore-kustomize
+  namespace: mcm-apps
   labels:
     deployment: bookstore-kustomize
   annotations:
     apps.open-cluster-management.io/github-branch: master
     apps.open-cluster-management.io/github-path: frontal/overlays/clusterhub
+    apps.open-cluster-management.io/reconcile-option: merge
 spec:
-  channel:  mcm-apps/bookstore-kustomize-channel            
-  placement: 
-    placementRef: 
+  channel:  mcm-apps/bookstore-kustomize-channel
+  placement:
+    placementRef:
       kind: PlacementRule
       name: bookstore-kustomize-clusterhub
-      
+
 ---
 
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
   name: bookstore-kustomize-clusterhub
-  namespace: bookstore-kustomize
+  namespace: mcm-apps
 spec:
   clusterSelector:
     matchLabels:
-      name: local-cluster    
-      
+      name: local-cluster
+
 ---
 
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: bookstore-kustomize-backend
-  namespace: bookstore-kustomize
+  namespace: mcm-apps
   labels:
     deployment: bookstore-kustomize
   annotations:
     apps.open-cluster-management.io/github-branch: master
     apps.open-cluster-management.io/github-path: backend
+    apps.open-cluster-management.io/reconcile-option: merge
 spec:
-  channel:  mcm-apps/bookstore-kustomize-channel            
-  placement: 
-    placementRef: 
+  channel:  mcm-apps/bookstore-kustomize-channel
+  placement:
+    placementRef:
       kind: PlacementRule
-      name: bookstore-kustomize-backend   
-    
+      name: bookstore-kustomize-backend
+
 ---
 
 apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
   name: bookstore-kustomize-backend
-  namespace: bookstore-kustomize
+  namespace: mcm-apps
 spec:
   clusterSelector:
     matchLabels:
-      environment: pro   
+      environment: pro
