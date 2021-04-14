@@ -108,6 +108,15 @@ spec:
     placementRef:
       kind: PlacementRule
       name: bookstore-kustomize-backend
+  timeWindow:
+    type: "block"
+    location: "Europe/Madrid"
+    weekdays: ["Sunday"]
+    hours:
+      - start: "04:00AM"
+        end: "04:01AM"
+      - start: "04:03AM"
+        end: "04:04PM"      
 
 ---
 
