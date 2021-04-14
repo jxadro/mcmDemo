@@ -1,0 +1,24 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: sample-app2
+  namespace: sample-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample-app2
+  template:
+    metadata:
+      labels:
+        app: sample-app2
+    spec:
+      hostNetwork: false
+      containers:
+      - name: details
+        image: docker.io/jxadro/hellonode:1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - protocol: TCP
+          containerPort: 9080
+          name: http
