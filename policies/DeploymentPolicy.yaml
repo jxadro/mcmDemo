@@ -56,7 +56,7 @@ spec:
         metadata:
           name: policy-pod-example-inform
         spec:
-          remediationAction: enforce 
+          remediationAction: inform 
           severity: low
           object-templates:       
             - complianceType: musthave
@@ -65,9 +65,7 @@ spec:
                 apiVersion: apps/v1
                 metadata:
                   name: sample-app2
-                  namespace: sample-app
-                spec:        
-                  replicas: 3                  
+                  namespace: sample-app                
                 status:
                   availableReplicas: 3
                   observedGeneration: 3
