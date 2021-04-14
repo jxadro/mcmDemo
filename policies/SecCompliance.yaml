@@ -116,7 +116,7 @@ spec:
         metadata:
           name: compliance-suite-e8-results
         spec:
-          remediationAction: enforce
+          remediationAction: inform
           severity: high
           object-templates:
             - complianceType: mustnothave # this template reports the results for scan suite: e8 by looking at ComplianceCheckResult CRs
