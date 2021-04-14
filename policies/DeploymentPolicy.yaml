@@ -13,7 +13,7 @@ spec:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
         metadata:
-          name: policy-pod-example
+          name: policy-pod-example-enforce
         spec:
           remediationAction: enforce 
           severity: low
@@ -54,7 +54,7 @@ spec:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
         metadata:
-          name: policy-pod-example
+          name: policy-pod-example-inform
         spec:
           remediationAction: inform 
           severity: low
