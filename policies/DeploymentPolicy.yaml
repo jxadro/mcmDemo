@@ -56,7 +56,7 @@ spec:
         metadata:
           name: policy-pod-example-inform
         spec:
-          remediationAction: inform 
+          remediationAction: enforce 
           severity: low
           object-templates:       
             - complianceType: musthave
