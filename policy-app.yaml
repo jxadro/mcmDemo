@@ -1,0 +1,58 @@
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: policies-channel
+  namespace: acm-policies
+spec:
+  pathname: 'https://github.com/jxadro/mcmDemo.git'
+  type: GitHub
+
+---
+
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: policies-app
+  namespace: acm-policies
+spec:
+  selector:
+    matchExpressions:
+      - key: deployment
+        operator: In
+        values:
+        - acm-policies
+  componentKinds:
+  - group: apps.open-cluster-management.io
+    kind: Subscription
+
+---
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: policies-sub
+  namespace: acm-policies
+  labels:
+    deployment: acm-policies
+  annotations:
+    apps.open-cluster-management.io/github-branch: master
+    apps.open-cluster-management.io/github-path: policies
+    apps.open-cluster-management.io/reconcile-option: merge
+spec:
+  channel:  acm-policies/policies-channel
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: policies-hub
+
+---
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: policies-hub
+  namespace: acm-policies
+spec:
+  clusterSelector:
+    matchLabels:
+      name: local-cluster
