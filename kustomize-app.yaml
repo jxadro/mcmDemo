@@ -9,6 +9,47 @@ spec:
 
 ---
 
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: bookstore-kustomize-backend
+  namespace: mcm-apps
+  labels:
+    deployment: bookstore-kustomize
+  annotations:
+    apps.open-cluster-management.io/github-branch: master
+    apps.open-cluster-management.io/github-path: backend
+    apps.open-cluster-management.io/reconcile-option: merge
+spec:
+  channel:  mcm-apps/bookstore-kustomize-channel
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: bookstore-kustomize-backend
+  timeWindow:
+    type: "block"
+    location: "Europe/Madrid"
+    weekdays: ["Sunday"]
+    hours:
+      - start: "04:00AM"
+        end: "04:01AM"
+      - start: "04:03AM"
+        end: "04:04PM"      
+
+---
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: bookstore-kustomize-backend
+  namespace: mcm-apps
+spec:
+  clusterSelector:
+    matchLabels:
+      environment: pro
+      
+---
+
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
@@ -55,7 +96,7 @@ metadata:
 spec:
   clusterSelector:
     matchLabels:
-      name: cluster1
+      name: cluster1-1
 
 ---
 
@@ -89,43 +130,3 @@ spec:
     matchLabels:
       name: local-cluster
 
----
-
-apiVersion: apps.open-cluster-management.io/v1
-kind: Subscription
-metadata:
-  name: bookstore-kustomize-backend
-  namespace: mcm-apps
-  labels:
-    deployment: bookstore-kustomize
-  annotations:
-    apps.open-cluster-management.io/github-branch: master
-    apps.open-cluster-management.io/github-path: backend
-    apps.open-cluster-management.io/reconcile-option: merge
-spec:
-  channel:  mcm-apps/bookstore-kustomize-channel
-  placement:
-    placementRef:
-      kind: PlacementRule
-      name: bookstore-kustomize-backend
-  timeWindow:
-    type: "block"
-    location: "Europe/Madrid"
-    weekdays: ["Sunday"]
-    hours:
-      - start: "04:00AM"
-        end: "04:01AM"
-      - start: "04:03AM"
-        end: "04:04PM"      
-
----
-
-apiVersion: apps.open-cluster-management.io/v1
-kind: PlacementRule
-metadata:
-  name: bookstore-kustomize-backend
-  namespace: mcm-apps
-spec:
-  clusterSelector:
-    matchLabels:
-      environment: pro
