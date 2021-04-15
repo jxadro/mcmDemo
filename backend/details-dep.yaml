@@ -4,7 +4,7 @@ metadata:
   name: details
   namespace: bookstore-kustomize
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: details
