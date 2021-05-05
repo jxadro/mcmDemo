@@ -1,4 +1,4 @@
 bases:
 - ../../base
-patchesStrategicMerge:
-- productpage-route.yaml
+resources:
+- productpage-ingress.yaml

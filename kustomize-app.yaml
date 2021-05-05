@@ -44,9 +44,9 @@ metadata:
   name: bookstore-kustomize-backend
   namespace: mcm-apps
 spec:
-  clusterSelector:
-    matchLabels:
-      environment: pro
+  clusterConditions:
+    - type: ManagedClusterConditionAvailable
+      status: "True"
       
 ---
 

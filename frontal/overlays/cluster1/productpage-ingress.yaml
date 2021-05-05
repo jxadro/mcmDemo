@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app: productpage
+  name: productpage
+  namespace: bookstore-kustomize
+spec:
+  rules:
+  - host: productpage-kustomize.apps.cluster1-ipi.mcmpoc.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: productpage
+            port:
+              number: 9080

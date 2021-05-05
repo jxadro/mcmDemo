@@ -1,7 +1,0 @@
-apiVersion: route.openshift.io/v1
-kind: Route
-metadata:
-  name: productpage
-  namespace: bookstore-kustomize
-spec:
-  host: productpage-kustomize.apps.cluster1-ipi.mcmpoc.com
