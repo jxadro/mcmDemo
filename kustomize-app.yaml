@@ -148,7 +148,7 @@ spec:
   placement:
     placementRef:
       kind: PlacementRule
-      name: bookstore-kustomize-clusterhub
+      name: bookstore-kustomize-aws1
 
 ---
 
