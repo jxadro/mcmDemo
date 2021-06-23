@@ -130,34 +130,3 @@ spec:
     matchLabels:
       name: local-cluster
 
----
-
-apiVersion: apps.open-cluster-management.io/v1
-kind: Subscription
-metadata:
-  name: bookstore-kustomize-frontal-aws
-  namespace: mcm-apps
-  labels:
-    deployment: bookstore-kustomize
-  annotations:
-    apps.open-cluster-management.io/github-branch: master
-    apps.open-cluster-management.io/github-path: frontal/overlays/aws1
-    apps.open-cluster-management.io/reconcile-option: merge
-spec:
-  channel:  mcm-apps/bookstore-kustomize-channel
-  placement:
-    placementRef:
-      kind: PlacementRule
-      name: bookstore-kustomize-aws1
-
----
-
-apiVersion: apps.open-cluster-management.io/v1
-kind: PlacementRule
-metadata:
-  name: bookstore-kustomize-aws1
-  namespace: mcm-apps
-spec:
-  clusterSelector:
-    matchLabels:
-      name: aws-2
