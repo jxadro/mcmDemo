@@ -1,0 +1,134 @@
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: bookstore-kustomize-channel
+  namespace: mcm-apps
+spec:
+  pathname: 'https://github.com/jxadro/mcmDemo.git'
+  type: GitHub
+
+---
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: bookstore-kustomize-backend
+  namespace: mcm-apps
+  labels:
+    deployment: bookstore-kustomize
+  annotations:
+    apps.open-cluster-management.io/github-branch: master
+    apps.open-cluster-management.io/github-path: backend
+    apps.open-cluster-management.io/reconcile-option: merge
+spec:
+  channel:  mcm-apps/bookstore-kustomize-channel
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: bookstore-kustomize-backend
+  timeWindow:
+    type: "block"
+    location: "Europe/Madrid"
+    weekdays: ["Sunday"]
+    hours:
+      - start: "04:00AM"
+        end: "04:01AM"
+      - start: "04:03AM"
+        end: "04:04PM"      
+
+---
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: bookstore-kustomize-backend
+  namespace: mcm-apps
+spec:
+  clusterSelector:
+    matchLabels:
+      env: pro
+      
+---
+
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: bookstore-kustomize-app
+  namespace: mcm-apps
+spec:
+  selector:
+    matchExpressions:
+      - key: deployment
+        operator: In
+        values:
+        - bookstore-kustomize
+  componentKinds:
+  - group: apps.open-cluster-management.io
+    kind: Subscription
+
+---
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: bookstore-kustomize-frontal-cluster1
+  namespace: mcm-apps
+  labels:
+    deployment: bookstore-kustomize
+  annotations:
+    apps.open-cluster-management.io/github-branch: master
+    apps.open-cluster-management.io/github-path: frontal/overlays/cluster1
+    apps.open-cluster-management.io/reconcile-option: merge
+spec:
+  channel:  mcm-apps/bookstore-kustomize-channel
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: bookstore-kustomize-cluster1
+
+---
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: bookstore-kustomize-cluster1
+  namespace: mcm-apps
+spec:
+  clusterSelector:
+    matchLabels:
+      name: cluster1
+
+---
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: bookstore-kustomize-frontal-clusterhub
+  namespace: mcm-apps
+  labels:
+    deployment: bookstore-kustomize
+  annotations:
+    apps.open-cluster-management.io/github-branch: master
+    apps.open-cluster-management.io/github-path: frontal/overlays/clusterhub
+    apps.open-cluster-management.io/reconcile-option: merge
+spec:
+  channel:  mcm-apps/bookstore-kustomize-channel
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: bookstore-kustomize-clusterhub
+
+---
+
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: bookstore-kustomize-clusterhub
+  namespace: mcm-apps
+spec:
+  clusterSelector:
+    matchLabels:
+      name: local-cluster
+
+
+
