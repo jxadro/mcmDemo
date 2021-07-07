@@ -57,21 +57,4 @@ spec:
     matchLabels:
       name: cluster1-ipi
       
----
-
-apiVersion: compliance.openshift.io/v1alpha1
-kind: ScanSettingBinding
-metadata:
-  name: e8 
-  namespace: secoperator-app
-profiles:
-- apiGroup: compliance.openshift.io/v1alpha1
-  kind: Profile
-  name: ocp4-e8
-- apiGroup: compliance.openshift.io/v1alpha1
-  kind: Profile
-  name: rhcos4-e8
-settingsRef:
-  apiGroup: compliance.openshift.io/v1alpha1
-  kind: ScanSetting
-  name: default      
+ 
