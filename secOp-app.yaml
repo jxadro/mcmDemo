@@ -2,7 +2,7 @@ apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:
   name: policies-channel
-  namespace: secop-app
+  namespace: secoperator-app
 spec:
   pathname: 'https://github.com/jxadro/mcmDemo.git'
   type: GitHub
@@ -13,7 +13,7 @@ apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
   name: secop-app
-  namespace: secop-app
+  namespace: secoperator-app
 spec:
   selector:
     matchExpressions:
@@ -31,7 +31,7 @@ apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: secop-sub
-  namespace: secop-app
+  namespace: secoperator-app
   labels:
     deployment: secop-app
   annotations:
@@ -51,7 +51,7 @@ apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
   name: policies-hub
-  namespace: secop-app
+  namespace: secoperator-app
 spec:
   clusterSelector:
     matchLabels:
