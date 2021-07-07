@@ -39,7 +39,7 @@ metadata:
     apps.open-cluster-management.io/github-path: secOp
     apps.open-cluster-management.io/reconcile-option: merge
 spec:
-  channel:  secop-app/policies-channel
+  channel:  secoperator-app/policies-channel
   placement:
     placementRef:
       kind: PlacementRule
