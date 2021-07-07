@@ -34,7 +34,7 @@ apiVersion: compliance.openshift.io/v1alpha1
 kind: ScanSettingBinding
 metadata:
   name: e8 
-  namespace: secoperator-app
+  namespace: sec-comp
 profiles:
 - apiGroup: compliance.openshift.io/v1alpha1
   kind: Profile
