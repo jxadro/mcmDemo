@@ -1,0 +1,73 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: policy-limitmemory
+  annotations:
+    policy.open-cluster-management.io/standards: NIST SP 800-53
+    policy.open-cluster-management.io/categories: SC System and Communications Protection
+    policy.open-cluster-management.io/controls: SC-6 Resource Availability
+spec:
+  remediationAction: inform
+  disabled: false
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: policy-limitrange-example
+        spec:
+          remediationAction: inform # the policy-template spec.remediationAction is overridden by the preceding parameter value for spec.remediationAction.
+          severity: medium
+          namespaceSelector:
+            exclude: ["kube-*"]
+            include: ["test-limit"]
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: v1
+                kind: LimitRange # limit memory usage
+                metadata:
+                  name: "resource-limits"
+                  namespace: test-limit
+                spec:
+                  limits:
+                    - type: "Container"
+                      max:
+                        cpu: "2"
+                        memory: "1Gi"
+                      min:
+                        cpu: "100m"
+                        memory: "4Mi"
+                      default:
+                        cpu: "300m"
+                        memory: "200Mi"
+                      defaultRequest:
+                        cpu: "200m"
+                        memory: "100Mi"
+                      maxLimitRequestRatio:
+                        cpu: "10"
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: binding-policy-limitmemory
+placementRef:
+  name: placement-policy-limitmemory
+  kind: PlacementRule
+  apiGroup: apps.open-cluster-management.io
+subjects:
+- name: policy-limitmemory
+  kind: Policy
+  apiGroup: policy.open-cluster-management.io
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: placement-policy-limitmemory
+spec:
+  clusterConditions:
+  - status: "True"
+    type: ManagedClusterConditionAvailable
+  clusterSelector:
+    matchExpressions:
+      - {key: vendor, operator: In, values: ["OpenShift"]}
