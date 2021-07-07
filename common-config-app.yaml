@@ -55,6 +55,6 @@ metadata:
 spec:
   clusterSelector:
     matchLabels:
-      - {key: vendor, operator: In, values: ["OpenShift"]}
+      vendor: OpenShift
       
  
